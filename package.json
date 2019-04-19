@@ -1,0 +1,44 @@
+{
+  "name": "cihai-app",
+  "version": "0.1.0",
+  "description": "cihai-app，一套能让你准时下班的框架.基于Vue3.0",
+  "author": "LiuJinrong <ljr2014ncu@gmail.com>",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --mode",
+    "devserve": "vue-cli-service serve --mode development",
+    "build": "vue-cli-service build --mode production",
+    "devbuild": "vue-cli-service build --mode development",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "fastclick": "^1.0.6",
+    "lib-flexible": "^0.3.2",
+    "qs": "^6.6.0",
+    "vant": "^1.4.10",
+    "vue": "^2.6.6",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-import": "^1.11.0",
+    "eslint": "^5.8.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "postcss-pxtorem": "^4.0.1",
+    "vue-template-compiler": "^2.5.21"
+  }
+}
