@@ -25,7 +25,7 @@
 
 <script>
 import { GetDateDiff, getDate } from '@/utils/common'
-import { calendar, GetMonthChinese, cDay } from '@/utils/date'
+import { calendar, GetMonthChinese, cDay, getYearChinese } from '@/utils/date'
 
 export default {
   name: 'Index',
@@ -42,8 +42,9 @@ export default {
     /* if (req.dtype === undefined) { req.dtype = 'home' } else {
       this.dtype = 'home'
     } */
-    let monthArray = this.getDateRoot(6, req.d)
+    let monthArray = this.getDateRoot(5, req.d)
     this.dateroot = monthArray
+    console.log(monthArray[0].root)
   },
   methods: {
     onPick (e) {
@@ -73,11 +74,11 @@ export default {
       // first day
       var mFirstDay = new Date(year, month, 1)
       var mfdM = mFirstDay.getMonth()
-
+      console.log(mfdM)
       for (var m = 0; m < num; m++) {
         // The first day of the month
-
         var currentDate = new Date(year, (mfdM + m), 1)
+        console.log(currentDate.getFullYear())
         var cyear = currentDate.getFullYear()
         var cmonth = currentDate.getMonth()
         var mfdWeek = currentDate.getDay()
@@ -85,6 +86,7 @@ export default {
         if (tMonth < 10) {
           tMonth = '0' + tMonth
         }
+        // return
         var nldateroot = calendar(this, cyear, cmonth)
 
         var tMonthName = cyear + ' 年 ' + tMonth + ' 月'
@@ -138,14 +140,19 @@ export default {
                 n = cDay(model.lDay)
               }
             }
+            const {cYear, cMonth, lDay, lMonth, lYear, sDay, sMonth, sYear} = model
+            let lCnDay = cDay(model.lDay)
 
-            dayArray.push({ d: daynum, n: n, nstyle: nstyle, ntips: ntips })
+            let lCnMonth = GetMonthChinese(model.lMonth)
+            let lCnYear = getYearChinese(model.lYear)
+            dayArray.push({ d: daynum, n: n, nstyle: nstyle, ntips: ntips, cDay: model.cDay, cYear, cMonth,lDay, lMonth, lYear,lCnDay, lCnMonth, lCnYear,sDay, sMonth, sYear })
           } else {
             dayArray.push({ d: '', n: '', nstyle: '', ntips: '' })
           }
         }
         var monthJson = { name: tMonthName, month: cyear + '-' + tMonth, root: dayArray }
         monthArray.push(monthJson)
+
       }
       return monthArray
     }
