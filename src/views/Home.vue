@@ -1,10 +1,13 @@
 <template>
   <div class="home">
     <CellGroup>
-      <Field label="出发日期" v-model="dateValue" placeholder="请选择日期" readonly @click="checkDateFun"></Field>
+      <Field label="阳历日期" v-model="dateValue" placeholder="请选择日期" readonly @click="checkDateFun"></Field>
+      <Field label="农历日期" v-model="lDateValue" placeholder="请选择日期" readonly @click="checkDateFun"></Field>
+      <Field label="天干地支" v-model="GanZhi" placeholder="请选择日期" readonly @click="checkDateFun"></Field>
+      <Field label="生肖" v-model="animal" placeholder="请选择日期" readonly @click="checkDateFun"></Field>
     </CellGroup>
     <Popup position="right" v-model="show" :lock-scroll="false">
-      <LunarDate v-on:checkDate="checkDate" v-on:show="showStatus"></LunarDate>
+      <LunarDate v-on:checkDateObj="checkDate" v-on:show="showStatus"></LunarDate>
     </Popup>
   </div>
 </template>
@@ -25,15 +28,21 @@ export default {
     return {
       dateValue: '',
       show: false,
-      indexData: ''
-
+      indexData: '',
+      lDateValue: '',
+      GanZhi: '',
+      animal: ''
     }
   },
   created () {
   },
   methods: {
     checkDate (e) {
-      this.dateValue = e
+      console.log(e)
+      this.dateValue = e.sYear + '-' + e.sMonth + '-' + e.sDay
+      this.lDateValue = e.lCnYear + e.lCnMonth + e.lCnDay
+      this.GanZhi = e.cYear
+      this.animal = e.animal
     },
     showStatus (e) {
       this.show = e

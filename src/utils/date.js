@@ -304,6 +304,10 @@ function getYearChinese(year) {
   return result
 }
 
+function getAnimal (y) {
+  return Animals[(y - 4) % 12]
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -312,5 +316,6 @@ export {
   cDay,
   sTerm,
   GetMonthChinese,
-  getYearChinese
+  getYearChinese,
+  getAnimal
 }

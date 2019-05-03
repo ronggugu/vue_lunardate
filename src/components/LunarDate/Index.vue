@@ -12,9 +12,9 @@
         <div class="dateContent">
 
             <div class='nofloat nofloaton'></div>
-            <div class="day" v-for="(items, index) in dateroot"  :key="index">
+            <div class="day" v-for="(items, f) in dateroot"  :key="f">
                 <div class='month'>{{items.name}}</div>
-                <div v-for="(day, index) in items.root" :key="index" class='daylist' :class="day.nstyle" :data-month="items.month" :data-day="day.d"  @click.stop='onPick' >
+                <div v-for="(day, c) in items.root" :key="c" class='daylist' :class="day.nstyle" :data-f="f" :data-c="c" :data-month="items.month" :data-day="day.d"  @click.stop='onPick' >
                     <div style="pointer-events: none">{{day.d}}</div>
                     <div style="pointer-events: none" v-if="day.d != ''" class='nl' :class="[day.ntips,day.nstyle]">{{day.n}}</div>
                 </div>
@@ -25,10 +25,16 @@
 
 <script>
 import { GetDateDiff, getDate } from '@/utils/common'
-import { calendar, GetMonthChinese, cDay, getYearChinese } from '@/utils/date'
+import { calendar, GetMonthChinese, cDay, getYearChinese, getAnimal } from '@/utils/date'
 
 export default {
   name: 'Index',
+  props: {
+    selectDate: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       dateroot: [],
@@ -38,27 +44,35 @@ export default {
     }
   },
   created () {
-    let req = this.$route.path
     /* if (req.dtype === undefined) { req.dtype = 'home' } else {
       this.dtype = 'home'
     } */
-    let monthArray = this.getDateRoot(5, req.d)
+
+    let monthArray = this.getDateRoot(5, undefined)
     this.dateroot = monthArray
-    console.log(monthArray[0].root)
+  },
+  mounted () {
+
+  },
+  watch: {
+    selectDate(v) {
+      console.log(v);
+
+    }
   },
   methods: {
     onPick (e) {
-      let { day, month } = e.target.dataset
+      let { day, month, f, c } = e.target.dataset
       if (day < 10) { day = '0' + day }
       let date = month + '-' + day
       let today = getDate()
-      this.checkDate = date
+      this.checkDateObj = this.dateroot[f].root[c]
+      this.dateroot = this.getDateRoot(5,date)
       // 向父组件传值
-      this.$emit('checkDate', date)
+      this.$emit('checkDateObj', this.checkDateObj)
       this.$emit('show', false)
       let diffday = GetDateDiff(date, today)
       if (diffday < 0) { return }
-      console.log(today, this.checkDate, diffday)
     },
     getDateRoot (num, seldate) {
       var monthArray = []
@@ -70,15 +84,13 @@ export default {
       var todayString = year + '-' + (month + 1) + '-' + day
 
       if (seldate === undefined) { seldate = todayString }
-
+      console.log(seldate)
       // first day
       var mFirstDay = new Date(year, month, 1)
       var mfdM = mFirstDay.getMonth()
-      console.log(mfdM)
       for (var m = 0; m < num; m++) {
         // The first day of the month
         var currentDate = new Date(year, (mfdM + m), 1)
-        console.log(currentDate.getFullYear())
         var cyear = currentDate.getFullYear()
         var cmonth = currentDate.getMonth()
         var mfdWeek = currentDate.getDay()
@@ -145,7 +157,8 @@ export default {
 
             let lCnMonth = GetMonthChinese(model.lMonth)
             let lCnYear = getYearChinese(model.lYear)
-            dayArray.push({ d: daynum, n: n, nstyle: nstyle, ntips: ntips, cDay: model.cDay, cYear, cMonth,lDay, lMonth, lYear,lCnDay, lCnMonth, lCnYear,sDay, sMonth, sYear })
+            let animal = getAnimal(lYear)
+            dayArray.push({ d: daynum, n: n, nstyle: nstyle, ntips: ntips, cDay: model.cDay, cYear, cMonth,lDay, lMonth, lYear,lCnDay, lCnMonth, lCnYear,sDay, sMonth, sYear, animal })
           } else {
             dayArray.push({ d: '', n: '', nstyle: '', ntips: '' })
           }
