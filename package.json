@@ -9,7 +9,7 @@
     "devserve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build --mode production",
     "devbuild": "vue-cli-service build --mode development",
-    "lint": "vue-cli-service lint" 
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "fastclick": "^1.0.6",
